@@ -73,12 +73,28 @@
           <h3>CI-ready artifact</h3>
           <p>One self-contained HTML file — no external/CDN requests — perfect to upload from a GitHub Actions or GitLab CI job.</p>
         </div>
+        <div class="feature">
+          <h3>SARIF for code scanning</h3>
+          <p>Emit SARIF 2.1.0 with <code>--sarif</code> and upload governance findings to GitHub code scanning — inline on every PR.</p>
+        </div>
+        <div class="feature">
+          <h3>Trends over time</h3>
+          <p>Feed multiple dated runs and get a scoreboard: total findings over time, per-severity trend, and which rules got better or worse.</p>
+        </div>
+        <div class="feature">
+          <h3>Report progress, not just deficits</h3>
+          <p>Supply a small per-rule totals sidecar and the report shows compliance — “82% of operations carry a unique id” — beside the violations.</p>
+        </div>
       </section>
 
       <section id="demo" class="demo">
         <div class="demo-head">
           <h2>Live demo</h2>
           <p>Paste the output of <code>spectral lint -f json &lt;your-api&gt;</code> below, or load the bundled sample, then generate the exact report the CLI produces — all in your browser.</p>
+        </div>
+        <div class="demo-modes" role="group" aria-label="Report mode">
+          <button id="mode-report" class="mode-btn active" type="button" data-mode="report">Single report</button>
+          <button id="mode-trend" class="mode-btn" type="button" data-mode="trend">Trend (multiple runs)</button>
         </div>
         <div class="demo-grid">
           <div class="demo-input">
@@ -102,6 +118,7 @@
             <div class="demo-bar">
               <span class="preview-label">Preview</span>
               <span class="spacer"></span>
+              <button id="download-sarif" class="btn-outline" type="button" disabled title="Download SARIF 2.1.0 for GitHub code scanning">Download SARIF</button>
               <button id="download" class="btn-yellow" type="button" disabled>Download HTML</button>
             </div>
             <iframe id="preview" title="Report preview" sandbox="allow-scripts"></iframe>
@@ -124,11 +141,27 @@ spectral lint -f json openapi.yaml | npx @api-common/spectral-reporter -o report
 
         <h3>Flags</h3>
         <ul class="flags">
-          <li><code>-o, --output &lt;file&gt;</code> — output HTML path (default <code>spectral-report.html</code>)</li>
+          <li><code>-o, --output &lt;file&gt;</code> — output path (HTML report, trend report, or SARIF)</li>
+          <li><code>--sarif &lt;file&gt;</code> — also write SARIF 2.1.0 for GitHub code scanning</li>
+          <li><code>--format &lt;html|sarif&gt;</code> — <code>sarif</code> writes SARIF to <code>-o</code> / default</li>
+          <li><code>--history &lt;dir&gt;</code> — render a trend report across dated JSON runs</li>
+          <li><code>--trends</code> — force trend mode (auto when multiple inputs given)</li>
+          <li><code>--totals &lt;file&gt;</code> — positive-rule sidecar → adds a compliance scoreboard</li>
           <li><code>--title &lt;text&gt;</code> — report title</li>
           <li><code>--dark</code> — force the dark theme</li>
           <li><code>--open</code> — best-effort open the report in your browser</li>
         </ul>
+
+        <h3>Trend report across runs</h3>
+        <pre><code># A directory of dated JSON runs (e.g. 2026-Q1.json, 2026-Q2.json …)
+npx @api-common/spectral-reporter --history runs/ -o trend-report.html
+
+# …or pass the run files positionally (oldest → newest)
+npx @api-common/spectral-reporter q1.json q2.json q3.json -o trend-report.html</code></pre>
+
+        <h3>Compliance (report progress, not just deficits)</h3>
+        <pre><code># totals.json: { "rules": { "operation-operationId": { "checked": 42, "passed": 34 } } }
+npx @api-common/spectral-reporter results.json --totals totals.json -o report.html</code></pre>
 
         <h3>In GitHub Actions</h3>
         <pre><code>- name: Lint &amp; report
@@ -140,10 +173,19 @@ spectral lint -f json openapi.yaml | npx @api-common/spectral-reporter -o report
     name: api-governance-report
     path: governance-report.html</code></pre>
 
+        <h3>Upload findings to GitHub code scanning (SARIF)</h3>
+        <pre><code>- name: Spectral → SARIF
+  run: |
+    npx @stoplight/spectral-cli lint -f json openapi.yaml > spectral.json || true
+    npx @api-common/spectral-reporter spectral.json --sarif results.sarif
+- uses: github/codeql-action/upload-sarif@v3
+  with:
+    sarif_file: results.sarif</code></pre>
+
         <p class="usage-foot">
           The HTML rendering is a pure, dependency-free function shared verbatim between the CLI and this page —
           so the report you download here is byte-for-byte what CI produces.
-          Free and open under the <a href="https://github.com/api-commons/spectral-reporter" target="_blank" rel="noopener">MIT license</a>.
+          Free and open under the <a href="https://github.com/api-commons/spectral-reporter" target="_blank" rel="noopener">Apache-2.0 license</a>.
           When you want experts in the loop, <button id="engage-inline" class="linkish" type="button">work with API Evangelist</button>.
         </p>
       </section>

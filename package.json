@@ -1,6 +1,6 @@
 {
   "name": "@api-common/spectral-reporter",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Turn Stoplight Spectral lint output into a rich, standalone HTML API governance report — inspired by newman-reporter-htmlextra. An API Commons tool.",
   "type": "module",
   "license": "Apache-2.0",
@@ -22,18 +22,28 @@
     "reporter",
     "htmlextra",
     "html-report",
+    "sarif",
+    "code-scanning",
+    "trends",
     "api-commons"
   ],
   "bin": {
     "spectral-reporter": "bin/cli.js"
   },
   "exports": {
-    ".": "./src/render-report.js"
+    ".": "./src/render-report.js",
+    "./trends": "./src/render-trends.js",
+    "./sarif": "./src/to-sarif.js"
   },
   "files": [
     "bin/",
     "src/render-report.js",
+    "src/render-trends.js",
+    "src/to-sarif.js",
     "fixtures/spectral-results.json",
+    "fixtures/spectral.sarif",
+    "fixtures/totals.json",
+    "fixtures/history/",
     "README.md",
     "LICENSE"
   ],

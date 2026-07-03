@@ -53,6 +53,9 @@ h1,h2,h3{letter-spacing:-.01em}
 .demo{max-width:1160px;margin:0 auto;padding:2rem 1.25rem}
 .demo-head h2{font-size:1.6rem;margin:0 0 .3rem}
 .demo-head p{margin:0 0 1.2rem;color:#c0c0c0}
+.demo-modes{display:inline-flex;gap:.3rem;border:1px solid var(--line);border-radius:8px;padding:.25rem;background:var(--panel);margin-bottom:1rem}
+.mode-btn{background:transparent;border:none;color:var(--muted);border-radius:5px;padding:6px 14px;font-size:.85rem;font-weight:600;cursor:pointer}
+.mode-btn.active{background:var(--accent);color:#1e1e1e}
 .demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem}
 .demo-input,.demo-output{display:flex;flex-direction:column;min-width:0}
 .demo-bar{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin-bottom:.5rem}

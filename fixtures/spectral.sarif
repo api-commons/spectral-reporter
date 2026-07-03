@@ -1,0 +1,712 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "Spectral",
+          "informationUri": "https://github.com/stoplightio/spectral",
+          "rules": [
+            {
+              "id": "operation-operationId",
+              "name": "operation-operationId",
+              "shortDescription": {
+                "text": "Operation must have \"operationId\"."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://docs.stoplight.io/docs/spectral/"
+            },
+            {
+              "id": "operation-4xx-response",
+              "name": "operation-4xx-response",
+              "shortDescription": {
+                "text": "Operation must have at least one 4xx response."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://docs.stoplight.io/docs/spectral/"
+            },
+            {
+              "id": "operation-description",
+              "name": "operation-description",
+              "shortDescription": {
+                "text": "Operation \"description\" must be present and non-empty string."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "helpUri": "https://docs.stoplight.io/docs/spectral/"
+            },
+            {
+              "id": "operation-tag-defined",
+              "name": "operation-tag-defined",
+              "shortDescription": {
+                "text": "Operation tags must be defined in global tags."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "helpUri": "https://docs.stoplight.io/docs/spectral/"
+            },
+            {
+              "id": "info-contact",
+              "name": "info-contact",
+              "shortDescription": {
+                "text": "Info object must have \"contact\" object."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "helpUri": "https://docs.stoplight.io/docs/spectral/"
+            },
+            {
+              "id": "info-license",
+              "name": "info-license",
+              "shortDescription": {
+                "text": "Info object must have \"license\" object."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "helpUri": "https://docs.stoplight.io/docs/spectral/"
+            },
+            {
+              "id": "oas3-unused-component",
+              "name": "oas3-unused-component",
+              "shortDescription": {
+                "text": "Potentially unused component has been detected."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "helpUri": "https://docs.stoplight.io/docs/spectral/"
+            },
+            {
+              "id": "owasp:api2:2023-no-api-keys-in-url",
+              "name": "owasp:api2:2023-no-api-keys-in-url",
+              "shortDescription": {
+                "text": "API keys must not be passed in the URL query string."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://docs.stoplight.io/docs/spectral/"
+            },
+            {
+              "id": "owasp:api8:2023-define-error-responses-500",
+              "name": "owasp:api8:2023-define-error-responses-500",
+              "shortDescription": {
+                "text": "Operation is missing a \"500\" error response."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "helpUri": "https://docs.stoplight.io/docs/spectral/"
+            },
+            {
+              "id": "operation-operationId-unique",
+              "name": "operation-operationId-unique",
+              "shortDescription": {
+                "text": "Every operation must have a unique \"operationId\"."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://docs.stoplight.io/docs/spectral/"
+            },
+            {
+              "id": "no-$ref-siblings",
+              "name": "no-$ref-siblings",
+              "shortDescription": {
+                "text": "$ref must not be placed next to any other properties."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "helpUri": "https://docs.stoplight.io/docs/spectral/"
+            },
+            {
+              "id": "operation-success-response",
+              "name": "operation-success-response",
+              "shortDescription": {
+                "text": "Operation must have at least one \"2xx\" or \"3xx\" response."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "helpUri": "https://docs.stoplight.io/docs/spectral/"
+            },
+            {
+              "id": "info-description",
+              "name": "info-description",
+              "shortDescription": {
+                "text": "Info \"description\" must be present and non-empty string."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "helpUri": "https://docs.stoplight.io/docs/spectral/"
+            },
+            {
+              "id": "channel-no-empty-parameter",
+              "name": "channel-no-empty-parameter",
+              "shortDescription": {
+                "text": "Channel path must not have empty parameter substitution pattern."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://docs.stoplight.io/docs/spectral/"
+            },
+            {
+              "id": "asyncapi-operation-description",
+              "name": "asyncapi-operation-description",
+              "shortDescription": {
+                "text": "Operation \"description\" must be present and non-empty string."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "helpUri": "https://docs.stoplight.io/docs/spectral/"
+            },
+            {
+              "id": "asyncapi-tags",
+              "name": "asyncapi-tags",
+              "shortDescription": {
+                "text": "AsyncAPI object must have non-empty \"tags\" array."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "helpUri": "https://docs.stoplight.io/docs/spectral/"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "operation-operationId",
+          "ruleIndex": 0,
+          "level": "error",
+          "message": {
+            "text": "Operation must have \"operationId\"."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/work/apis/petstore/openapi.yaml"
+                },
+                "region": {
+                  "startLine": 23,
+                  "startColumn": 7,
+                  "endLine": 25,
+                  "endColumn": 21
+                }
+              }
+            }
+          ],
+          "properties": {
+            "path": [
+              "paths",
+              "/pets",
+              "get"
+            ]
+          }
+        },
+        {
+          "ruleId": "operation-operationId",
+          "ruleIndex": 0,
+          "level": "error",
+          "message": {
+            "text": "Operation must have \"operationId\"."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/work/apis/petstore/openapi.yaml"
+                },
+                "region": {
+                  "startLine": 42,
+                  "startColumn": 7,
+                  "endLine": 44,
+                  "endColumn": 21
+                }
+              }
+            }
+          ],
+          "properties": {
+            "path": [
+              "paths",
+              "/pets",
+              "post"
+            ]
+          }
+        },
+        {
+          "ruleId": "operation-4xx-response",
+          "ruleIndex": 1,
+          "level": "error",
+          "message": {
+            "text": "Operation must have at least one 4xx response."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/work/apis/petstore/openapi.yaml"
+                },
+                "region": {
+                  "startLine": 29,
+                  "startColumn": 9,
+                  "endLine": 35,
+                  "endColumn": 13
+                }
+              }
+            }
+          ],
+          "properties": {
+            "path": [
+              "paths",
+              "/pets",
+              "get",
+              "responses"
+            ]
+          }
+        },
+        {
+          "ruleId": "operation-description",
+          "ruleIndex": 2,
+          "level": "warning",
+          "message": {
+            "text": "Operation \"description\" must be present and non-empty string."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/work/apis/petstore/openapi.yaml"
+                },
+                "region": {
+                  "startLine": 23,
+                  "startColumn": 7,
+                  "endLine": 25,
+                  "endColumn": 21
+                }
+              }
+            }
+          ],
+          "properties": {
+            "path": [
+              "paths",
+              "/pets",
+              "get",
+              "description"
+            ]
+          }
+        },
+        {
+          "ruleId": "operation-tag-defined",
+          "ruleIndex": 3,
+          "level": "warning",
+          "message": {
+            "text": "Operation tags must be defined in global tags."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/work/apis/petstore/openapi.yaml"
+                },
+                "region": {
+                  "startLine": 45,
+                  "startColumn": 9,
+                  "endLine": 45,
+                  "endColumn": 25
+                }
+              }
+            }
+          ],
+          "properties": {
+            "path": [
+              "paths",
+              "/pets",
+              "post",
+              "tags",
+              "0"
+            ]
+          }
+        },
+        {
+          "ruleId": "info-contact",
+          "ruleIndex": 4,
+          "level": "note",
+          "message": {
+            "text": "Info object must have \"contact\" object."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/work/apis/petstore/openapi.yaml"
+                },
+                "region": {
+                  "startLine": 4,
+                  "startColumn": 3,
+                  "endLine": 7,
+                  "endColumn": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "path": [
+              "info",
+              "contact"
+            ]
+          }
+        },
+        {
+          "ruleId": "info-license",
+          "ruleIndex": 5,
+          "level": "note",
+          "message": {
+            "text": "Info object must have \"license\" object."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/work/apis/petstore/openapi.yaml"
+                },
+                "region": {
+                  "startLine": 4,
+                  "startColumn": 3,
+                  "endLine": 7,
+                  "endColumn": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "path": [
+              "info",
+              "license"
+            ]
+          }
+        },
+        {
+          "ruleId": "oas3-unused-component",
+          "ruleIndex": 6,
+          "level": "warning",
+          "message": {
+            "text": "Potentially unused component has been detected."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/work/apis/petstore/openapi.yaml"
+                },
+                "region": {
+                  "startLine": 89,
+                  "startColumn": 5,
+                  "endLine": 96,
+                  "endColumn": 11
+                }
+              }
+            }
+          ],
+          "properties": {
+            "path": [
+              "components",
+              "schemas",
+              "LegacyError"
+            ]
+          }
+        },
+        {
+          "ruleId": "owasp:api2:2023-no-api-keys-in-url",
+          "ruleIndex": 7,
+          "level": "error",
+          "message": {
+            "text": "API keys must not be passed in the URL query string."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/work/apis/orders/orders.openapi.yaml"
+                },
+                "region": {
+                  "startLine": 72,
+                  "startColumn": 9,
+                  "endLine": 72,
+                  "endColumn": 23
+                }
+              }
+            }
+          ],
+          "properties": {
+            "path": [
+              "components",
+              "securitySchemes",
+              "apiKeyQuery",
+              "in"
+            ]
+          }
+        },
+        {
+          "ruleId": "owasp:api8:2023-define-error-responses-500",
+          "ruleIndex": 8,
+          "level": "warning",
+          "message": {
+            "text": "Operation is missing a \"500\" error response."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/work/apis/orders/orders.openapi.yaml"
+                },
+                "region": {
+                  "startLine": 31,
+                  "startColumn": 9,
+                  "endLine": 41,
+                  "endColumn": 13
+                }
+              }
+            }
+          ],
+          "properties": {
+            "path": [
+              "paths",
+              "/orders/{id}",
+              "get",
+              "responses"
+            ]
+          }
+        },
+        {
+          "ruleId": "operation-operationId-unique",
+          "ruleIndex": 9,
+          "level": "error",
+          "message": {
+            "text": "Every operation must have a unique \"operationId\"."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/work/apis/orders/orders.openapi.yaml"
+                },
+                "region": {
+                  "startLine": 15,
+                  "startColumn": 7,
+                  "endLine": 15,
+                  "endColumn": 31
+                }
+              }
+            }
+          ],
+          "properties": {
+            "path": [
+              "paths",
+              "/orders",
+              "get",
+              "operationId"
+            ]
+          }
+        },
+        {
+          "ruleId": "no-$ref-siblings",
+          "ruleIndex": 10,
+          "level": "warning",
+          "message": {
+            "text": "$ref must not be placed next to any other properties."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/work/apis/orders/orders.openapi.yaml"
+                },
+                "region": {
+                  "startLine": 34,
+                  "startColumn": 15,
+                  "endLine": 36,
+                  "endColumn": 19
+                }
+              }
+            }
+          ],
+          "properties": {
+            "path": [
+              "paths",
+              "/orders/{id}",
+              "get",
+              "responses",
+              "200",
+              "content",
+              "application/json",
+              "schema"
+            ]
+          }
+        },
+        {
+          "ruleId": "operation-success-response",
+          "ruleIndex": 11,
+          "level": "warning",
+          "message": {
+            "text": "Operation must have at least one \"2xx\" or \"3xx\" response."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/work/apis/orders/orders.openapi.yaml"
+                },
+                "region": {
+                  "startLine": 49,
+                  "startColumn": 9,
+                  "endLine": 53,
+                  "endColumn": 13
+                }
+              }
+            }
+          ],
+          "properties": {
+            "path": [
+              "paths",
+              "/orders/{id}",
+              "delete",
+              "responses"
+            ]
+          }
+        },
+        {
+          "ruleId": "info-description",
+          "ruleIndex": 12,
+          "level": "note",
+          "message": {
+            "text": "Info \"description\" must be present and non-empty string."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/work/apis/orders/orders.openapi.yaml"
+                },
+                "region": {
+                  "startLine": 4,
+                  "startColumn": 3,
+                  "endLine": 6,
+                  "endColumn": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "path": [
+              "info",
+              "description"
+            ]
+          }
+        },
+        {
+          "ruleId": "channel-no-empty-parameter",
+          "ruleIndex": 13,
+          "level": "error",
+          "message": {
+            "text": "Channel path must not have empty parameter substitution pattern."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/work/apis/events/asyncapi.yaml"
+                },
+                "region": {
+                  "startLine": 13,
+                  "startColumn": 5,
+                  "endLine": 13,
+                  "endColumn": 37
+                }
+              }
+            }
+          ],
+          "properties": {
+            "path": [
+              "channels",
+              "user/{userId}/signedup"
+            ]
+          }
+        },
+        {
+          "ruleId": "asyncapi-operation-description",
+          "ruleIndex": 14,
+          "level": "warning",
+          "message": {
+            "text": "Operation \"description\" must be present and non-empty string."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/work/apis/events/asyncapi.yaml"
+                },
+                "region": {
+                  "startLine": 16,
+                  "startColumn": 7,
+                  "endLine": 18,
+                  "endColumn": 11
+                }
+              }
+            }
+          ],
+          "properties": {
+            "path": [
+              "channels",
+              "user/{userId}/signedup",
+              "subscribe",
+              "description"
+            ]
+          }
+        },
+        {
+          "ruleId": "asyncapi-tags",
+          "ruleIndex": 15,
+          "level": "note",
+          "message": {
+            "text": "AsyncAPI object must have non-empty \"tags\" array."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/work/apis/events/asyncapi.yaml"
+                },
+                "region": {
+                  "startLine": 2,
+                  "startColumn": 1,
+                  "endLine": 3,
+                  "endColumn": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "path": [
+              "tags"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

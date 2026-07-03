@@ -76,6 +76,47 @@ function tally(issues) {
   return counts;
 }
 
+// Positive-rule framing. Raw Spectral JSON only lists VIOLATIONS, so to report
+// progress ("82% of operations carry a unique id") the caller can supply an
+// optional sidecar of per-rule totals. We accept three shapes and degrade
+// gracefully (returns [] → no compliance section) when nothing usable is given:
+//   • an array:  [{ code|rule, checked, passed, failed }, …]
+//   • { rules: { "rule-code": { checked, passed, failed }, … } }
+//   • a plain object keyed by rule:  { "rule-code": { checked, passed, failed } }
+// `passed` defaults to checked − failed when omitted; `failed` to checked − passed.
+function normalizeTotals(totals) {
+  if (!totals) return [];
+  let entries = [];
+  if (Array.isArray(totals)) {
+    entries = totals.map((t) => [t && (t.code != null ? t.code : t.rule), t]);
+  } else if (typeof totals === 'object') {
+    const src = totals.rules && typeof totals.rules === 'object' ? totals.rules : totals;
+    entries = Object.entries(src);
+  }
+  const out = [];
+  for (const [code, t] of entries) {
+    if (code == null || !t || typeof t !== 'object') continue;
+    const checked = Number.isFinite(t.checked) ? t.checked : null;
+    let passed = Number.isFinite(t.passed) ? t.passed : null;
+    let failed = Number.isFinite(t.failed) ? t.failed : null;
+    if (checked == null && passed == null && failed == null) continue;
+    if (passed == null && checked != null && failed != null) passed = checked - failed;
+    if (failed == null && checked != null && passed != null) failed = checked - passed;
+    const total = checked != null ? checked : (passed || 0) + (failed || 0);
+    if (!(total > 0)) continue;
+    const pass = passed != null ? passed : total - (failed || 0);
+    out.push({
+      code: String(code),
+      checked: total,
+      passed: Math.max(0, pass),
+      failed: failed != null ? Math.max(0, failed) : Math.max(0, total - pass),
+      pct: Math.round((Math.max(0, pass) / total) * 100),
+    });
+  }
+  // Worst compliance first — that's where the work is.
+  return out.sort((a, b) => a.pct - b.pct || b.checked - a.checked);
+}
+
 // Rank a keyed dimension (rule code / file) by issue volume, worst-severity first.
 function ranking(issues, keyFn) {
   const map = new Map();
@@ -96,6 +137,10 @@ function ranking(issues, keyFn) {
  * @param {boolean} [options.dark]        Force dark theme (default: auto/light).
  * @param {string} [options.generatedAt]  ISO timestamp; stamped by the caller at
  *                                         render time — NOT read at module load.
+ * @param {Array|Object} [options.totals] Optional positive-rule sidecar of
+ *                                         per-rule {checked, passed, failed}
+ *                                         totals; adds a compliance scoreboard.
+ *                                         Absent → deficit-only (unchanged).
  * @returns {string} a complete standalone HTML document.
  */
 export function renderReport(results, options = {}) {
@@ -104,10 +149,12 @@ export function renderReport(results, options = {}) {
     dark: false,
     // new Date() is evaluated only when renderReport is CALLED, never at import.
     generatedAt: new Date().toISOString(),
+    totals: null,
     ...options,
   };
 
   const issues = normalize(results);
+  const compliance = normalizeTotals(opts.totals);
   const counts = tally(issues);
   const total = issues.length;
   const errors = counts[0];
@@ -171,6 +218,33 @@ export function renderReport(results, options = {}) {
     .replace(/>/g, '\\u003e')
     .replace(/&/g, '\\u0026');
 
+  // Positive-rule framing: an optional compliance scoreboard alongside the
+  // deficit list. Renders only when a totals sidecar was supplied.
+  const complianceSection = (() => {
+    if (!compliance.length) return '';
+    const sumChecked = compliance.reduce((a, c) => a + c.checked, 0);
+    const sumPassed = compliance.reduce((a, c) => a + c.passed, 0);
+    const overall = sumChecked ? Math.round((sumPassed / sumChecked) * 100) : 0;
+    const rows = compliance.map((c) => {
+      const cls = c.pct >= 90 ? 'good' : c.pct >= 70 ? 'ok' : 'low';
+      return `
+        <div class="comp-row">
+          <code class="comp-key" title="${escapeHtml(c.code)}">${escapeHtml(c.code)}</code>
+          <div class="comp-bar comp-${cls}"><span style="width:${c.pct}%"></span></div>
+          <span class="comp-pct">${c.pct}%</span>
+          <span class="comp-frac">${c.passed}/${c.checked}</span>
+        </div>`;
+    }).join('');
+    return `
+  <section class="compliance">
+    <div class="comp-head">
+      <h2>Compliance</h2>
+      <div class="comp-overall"><span class="comp-overall-num">${overall}%</span><span class="comp-overall-label">${sumPassed} of ${sumChecked} checks passing</span></div>
+    </div>
+    <div class="comp-rows">${rows}</div>
+  </section>`;
+  })();
+
   const css = reportCss();
   const script = reportScript();
 
@@ -196,7 +270,7 @@ export function renderReport(results, options = {}) {
     ${banner}
     <div class="tiles" role="list" aria-label="Findings by severity">${tiles}</div>
   </header>
-
+${complianceSection}
   ${total ? `
   <section class="rankings">
     <div class="rank-card">
@@ -283,6 +357,21 @@ code{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:.85em}
 .tile-info .tile-dot{background:var(--info)} .tile-info .tile-num{color:var(--info)}
 .tile-hint .tile-dot{background:var(--hint)} .tile-hint .tile-num{color:var(--hint)}
 
+.compliance{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:1rem 1.25rem;box-shadow:var(--shadow);margin-bottom:1.25rem}
+.comp-head{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap;margin-bottom:.7rem}
+.comp-head h2{margin:0;font-size:.82rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.comp-overall{display:flex;align-items:baseline;gap:.5rem}
+.comp-overall-num{font-size:1.5rem;font-weight:800;color:#2da44e;font-variant-numeric:tabular-nums}
+.comp-overall-label{color:var(--muted);font-size:.85rem}
+.comp-rows{display:flex;flex-direction:column;gap:.4rem}
+.comp-row{display:grid;grid-template-columns:minmax(0,1fr) 120px 44px 62px;gap:.6rem;align-items:center}
+.comp-key{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--fg)}
+.comp-bar{background:var(--code);border-radius:4px;height:9px;overflow:hidden}
+.comp-bar span{display:block;height:100%;border-radius:4px}
+.comp-good span{background:#2da44e} .comp-ok span{background:var(--warn)} .comp-low span{background:var(--error)}
+.comp-pct{text-align:right;font-variant-numeric:tabular-nums;font-weight:600;font-size:.85rem}
+.comp-frac{text-align:right;color:var(--muted);font-size:.78rem;font-variant-numeric:tabular-nums}
+@media(max-width:560px){.comp-row{grid-template-columns:minmax(0,1fr) 44px}.comp-bar,.comp-frac{display:none}}
 .rankings{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.25rem}
 .rank-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:1rem 1.1rem;box-shadow:var(--shadow);min-width:0}
 .rank-card h2{margin:0 0 .7rem;font-size:.82rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
