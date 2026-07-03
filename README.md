@@ -136,7 +136,7 @@ and download on the site is byte-for-byte what CI produces.
 
 ## License
 
-[MIT](./LICENSE) — free and open. A project of
+[Apache-2.0](./LICENSE) — free and open. A project of
 [API Evangelist](https://apievangelist.com), maintained under
 [API Commons](https://apicommons.org). API Evangelist offers expert
 [governance services](https://apievangelist.com/services/) when you want help.

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Turn Stoplight Spectral lint output into a rich, standalone HTML API governance report — inspired by newman-reporter-htmlextra. An API Commons tool.",
   "type": "module",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "author": "API Evangelist (https://apievangelist.com)",
   "homepage": "https://reporter.apicommons.org",
   "repository": {
