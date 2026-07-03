@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Spectral Reporter — beautiful HTML API governance reports</title>
+    <meta name="description" content="Turn Stoplight Spectral lint output into a rich, standalone HTML API governance report you can attach to any CI run. A post-processor inspired by newman-reporter-htmlextra. An API Commons tool — free and open." />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <!-- Google tag (gtag.js) — API Commons -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WNSPT4B4S8"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-WNSPT4B4S8');
+    </script>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <img src="/favicon.svg" alt="" width="24" height="24" />
+        <strong>Spectral Reporter</strong>
+        <span class="tag">reporter.apicommons.org</span>
+      </div>
+      <nav>
+        <a href="#demo">Live demo</a>
+        <a href="#usage">Usage</a>
+        <a href="https://apicommons.org/tools/" target="_blank" rel="noopener">API Commons</a>
+        <a class="btn-yellow" href="https://github.com/api-commons/spectral-reporter" target="_blank" rel="noopener">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+          GitHub
+        </a>
+        <button id="engage-ae" class="btn-yellow" type="button" title="Work with API Evangelist on governance">Get Help</button>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-inner">
+          <h1>Beautiful HTML reports for your API governance.</h1>
+          <p class="lede">
+            <strong>Spectral Reporter</strong> is a post-processor that turns
+            <a href="https://github.com/stoplightio/spectral" target="_blank" rel="noopener">Stoplight Spectral</a>
+            lint output into a rich, <strong>self-contained HTML report</strong> you can attach to any CI run —
+            in the spirit of Danny Dainton’s
+            <a href="https://github.com/DannyDainton/newman-reporter-htmlextra" target="_blank" rel="noopener">newman-reporter-htmlextra</a>
+            for Newman. Pipe in Spectral’s JSON, get a shareable governance report out. No backend, no accounts, renders offline.
+          </p>
+          <div class="hero-cta">
+            <a class="btn-yellow big" href="#demo">Try the live demo ↓</a>
+            <a class="btn-outline big" href="#usage">Install &amp; usage</a>
+          </div>
+          <pre class="hero-cmd"><code>spectral lint -f json openapi.yaml | npx @api-common/spectral-reporter -o report.html</code></pre>
+        </div>
+      </section>
+
+      <section class="features">
+        <div class="feature">
+          <h3>Severity at a glance</h3>
+          <p>Pass/fail governance banner plus Errors / Warnings / Info / Hints stat tiles with reserved, always-labelled status colors.</p>
+        </div>
+        <div class="feature">
+          <h3>Group &amp; filter</h3>
+          <p>Regroup findings by rule, file, or severity; search across every message; toggle severities. All client-side, in one file.</p>
+        </div>
+        <div class="feature">
+          <h3>Top offenders</h3>
+          <p>Mini bar-rankings surface the rules and files generating the most findings, so you know where to start.</p>
+        </div>
+        <div class="feature">
+          <h3>CI-ready artifact</h3>
+          <p>One self-contained HTML file — no external/CDN requests — perfect to upload from a GitHub Actions or GitLab CI job.</p>
+        </div>
+      </section>
+
+      <section id="demo" class="demo">
+        <div class="demo-head">
+          <h2>Live demo</h2>
+          <p>Paste the output of <code>spectral lint -f json &lt;your-api&gt;</code> below, or load the bundled sample, then generate the exact report the CLI produces — all in your browser.</p>
+        </div>
+        <div class="demo-grid">
+          <div class="demo-input">
+            <div class="demo-bar">
+              <button id="load-sample" class="btn-outline" type="button">Load sample</button>
+              <input id="report-title" type="text" value="API Governance Report" aria-label="Report title" title="Report title" />
+              <label class="dark-toggle"><input id="dark-check" type="checkbox" /> Dark</label>
+              <span class="spacer"></span>
+              <button id="generate" class="btn-yellow" type="button">Generate report →</button>
+            </div>
+            <textarea id="input" spellcheck="false" placeholder='Paste Spectral -f json output here, e.g.
+[
+  { "code": "operation-operationId", "path": ["paths","/pets","get"],
+    "message": "Operation must have \"operationId\".", "severity": 0,
+    "range": {"start":{"line":10,"character":6},"end":{"line":12,"character":20}},
+    "source": "openapi.yaml" }
+]'></textarea>
+            <p id="demo-status" class="demo-status muted"></p>
+          </div>
+          <div class="demo-output">
+            <div class="demo-bar">
+              <span class="preview-label">Preview</span>
+              <span class="spacer"></span>
+              <button id="download" class="btn-yellow" type="button" disabled>Download HTML</button>
+            </div>
+            <iframe id="preview" title="Report preview" sandbox="allow-scripts"></iframe>
+          </div>
+        </div>
+      </section>
+
+      <section id="usage" class="usage">
+        <h2>Install &amp; usage</h2>
+
+        <h3>Run it now (no install)</h3>
+        <pre><code># From a Spectral JSON file
+npx @api-common/spectral-reporter spectral-results.json -o governance-report.html
+
+# Or pipe straight from Spectral
+spectral lint -f json openapi.yaml | npx @api-common/spectral-reporter -o report.html</code></pre>
+
+        <h3>Install as a dev dependency</h3>
+        <pre><code>npm install --save-dev @api-common/spectral-reporter</code></pre>
+
+        <h3>Flags</h3>
+        <ul class="flags">
+          <li><code>-o, --output &lt;file&gt;</code> — output HTML path (default <code>spectral-report.html</code>)</li>
+          <li><code>--title &lt;text&gt;</code> — report title</li>
+          <li><code>--dark</code> — force the dark theme</li>
+          <li><code>--open</code> — best-effort open the report in your browser</li>
+        </ul>
+
+        <h3>In GitHub Actions</h3>
+        <pre><code>- name: Lint &amp; report
+  run: |
+    npx @stoplight/spectral-cli lint -f json openapi.yaml > spectral.json || true
+    npx @api-common/spectral-reporter spectral.json -o governance-report.html
+- uses: actions/upload-artifact@v4
+  with:
+    name: api-governance-report
+    path: governance-report.html</code></pre>
+
+        <p class="usage-foot">
+          The HTML rendering is a pure, dependency-free function shared verbatim between the CLI and this page —
+          so the report you download here is byte-for-byte what CI produces.
+          Free and open under the <a href="https://github.com/api-commons/spectral-reporter" target="_blank" rel="noopener">MIT license</a>.
+          When you want experts in the loop, <button id="engage-inline" class="linkish" type="button">work with API Evangelist</button>.
+        </p>
+      </section>
+    </main>
+
+    <footer class="site-foot">
+      <div class="foot-tools">
+        <span class="foot-title">API Commons tools</span>
+        <a href="https://validator.apicommons.org" target="_blank" rel="noopener">API Validator</a>
+        <a href="https://discover.apicommons.org" target="_blank" rel="noopener">API Discovery</a>
+        <a href="https://documentation.apicommons.org" target="_blank" rel="noopener">API Documentation</a>
+        <a href="https://reusability.apicommons.org" target="_blank" rel="noopener">API Reusability</a>
+        <a href="https://install.apicommons.org" target="_blank" rel="noopener">MCP Install</a>
+        <a href="https://reporter.apicommons.org" class="current">Spectral Reporter</a>
+      </div>
+      <p class="foot-note">
+        A project of <a href="https://apievangelist.com" target="_blank" rel="noopener">API Evangelist</a>,
+        maintained openly under <a href="https://apicommons.org" target="_blank" rel="noopener">API Commons</a>.
+        Open source and free to fork; API Evangelist offers expert
+        <a href="https://apievangelist.com/services/" target="_blank" rel="noopener">governance services</a> when you want help.
+      </p>
+    </footer>
+
+    <script type="module" src="/src/site.ts"></script>
+  </body>
+</html>

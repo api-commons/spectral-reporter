@@ -1,0 +1,58 @@
+{
+  "name": "@api-common/spectral-reporter",
+  "version": "0.1.0",
+  "description": "Turn Stoplight Spectral lint output into a rich, standalone HTML API governance report — inspired by newman-reporter-htmlextra. An API Commons tool.",
+  "type": "module",
+  "license": "MIT",
+  "author": "API Evangelist (https://apievangelist.com)",
+  "homepage": "https://reporter.apicommons.org",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/api-commons/spectral-reporter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/api-commons/spectral-reporter/issues"
+  },
+  "keywords": [
+    "spectral",
+    "openapi",
+    "asyncapi",
+    "api-governance",
+    "linting",
+    "reporter",
+    "htmlextra",
+    "html-report",
+    "api-commons"
+  ],
+  "bin": {
+    "spectral-reporter": "bin/cli.js"
+  },
+  "exports": {
+    ".": "./src/render-report.js"
+  },
+  "files": [
+    "bin/",
+    "src/render-report.js",
+    "fixtures/spectral-results.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node --test",
+    "dev": "vite",
+    "build:site": "vite build",
+    "build": "vite build",
+    "preview": "vite preview",
+    "cli": "node bin/cli.js"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2",
+    "vite": "^5.4.11"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

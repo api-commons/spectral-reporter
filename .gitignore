@@ -1,0 +1,6 @@
+node_modules/
+dist/
+.DS_Store
+*.log
+spectral-report.html
+governance-report.html
