@@ -234,3 +234,5 @@ and download on the site is byte-for-byte what CI produces.
 [API Evangelist](https://apievangelist.com), maintained under
 [API Commons](https://apicommons.org). API Evangelist offers expert
 [governance services](https://apievangelist.com/services/) when you want help.
+
+**Governance guidance** — the human *why* behind this tool: [Quality](https://guidance.apievangelist.com/store/quality/) at guidance.apievangelist.com.
