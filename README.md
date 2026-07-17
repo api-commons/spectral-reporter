@@ -11,13 +11,6 @@ which does the same thing for Postman/Newman runs.
 
 Live demo and landing page: **[reporter.apicommons.org](https://reporter.apicommons.org)**
 
-One of the [API Commons tools](https://apicommons.org/tools/), alongside
-[API Validator](https://validator.apicommons.org),
-[API Discovery](https://discover.apicommons.org),
-[API Documentation](https://documentation.apicommons.org),
-[API Reusability](https://reusability.apicommons.org), and
-[MCP Install](https://install.apicommons.org).
-
 ## What's in the report
 
 - **Pass/fail governance banner** — fails if there are any errors.
@@ -236,3 +229,15 @@ and download on the site is byte-for-byte what CI produces.
 [governance services](https://apievangelist.com/services/) when you want help.
 
 **Governance guidance** — the human *why* behind this tool: [Quality](https://guidance.apievangelist.com/store/quality/) at guidance.apievangelist.com.
+
+## Part of API Commons
+
+An open, browser-first tool from **[API Commons](https://apicommons.org)** — free, no backend, your data stays in your browser. Browse the full set at **[apicommons.org/tools](https://apicommons.org/tools/)**.
+
+**Related tools**
+- [Spectral Ruleset Studio](https://studio.apicommons.org) — turn a style guide into an owned ruleset
+- [Ruleset Commons](https://rulesets.apicommons.org) — adopt a provenanced ruleset by reference
+- [API Validator](https://validator.apicommons.org) — lint OpenAPI/AsyncAPI/Arazzo/JSON Schema in-browser
+- [Spectral OWASP Ruleset](https://github.com/api-commons/spectral-owasp-ruleset) — OWASP API Security layer
+- [Governance Scorecard](https://scorecard.apicommons.org) — governance health over time
+- [Governance Pipeline](https://github.com/api-commons/governance-pipeline) — a forkable PR-gated governance pipeline
